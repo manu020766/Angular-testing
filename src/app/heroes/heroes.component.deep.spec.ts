@@ -59,4 +59,18 @@ describe('heroes component "deep"', ()=> {
         expect(heroCo.delete.emit).toHaveBeenCalledWith(HEROES[0])
     })
 
+    it(`should call heroService.deleteHero when the Hero Component's
+        delete2 button is clicked`, ()=> {
+            // const heroComponent = fixture.debugElement.query(By.directive(HeroComponent)).componentInstance
+            // console.log('AQUI', heroComponent)
+            // console.log('AQUIIII', fixture.nativeElement.querySelector('app-hero'))
+
+            spyOn(heroesComponent, 'delete2')
+            const heroComponents = fixture.debugElement.queryAll(By.directive(HeroComponent))
+
+            heroComponents[0].query(By.css('.delete2')).triggerEventHandler('click',{ stopPropagation: () => {} })
+
+            expect(heroesComponent.delete2).toHaveBeenCalledWith(HEROES[0])
+    })
+        
 })
