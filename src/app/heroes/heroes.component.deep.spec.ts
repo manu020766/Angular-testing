@@ -72,5 +72,36 @@ describe('heroes component "deep"', ()=> {
 
             expect(heroesComponent.delete2).toHaveBeenCalledWith(HEROES[0])
     })
+
+    it('should add a new hero to the hero list when de add button is clicked', () => {
+
+        mockheroService.addHero.and.returnValue(of({ id: 4, name: 'Heroe 4', strength: 400}))
+        const newHeroName = 'Heroe 4'
+
+        let inputName = fixture.debugElement.query(By.css('input')).nativeElement
+        inputName.value = newHeroName
+
+        let buttonAdd = fixture.debugElement.query(By.css('button')).nativeElement
+        buttonAdd.click()
+
+        // console.log('NEW HERO ', heroesComponent.heroes[3])
+        //expect(heroesComponent.heroes.length).toBe(4)
+
+        fixture.detectChanges()
+
+        // first
+        // let HeroCompnentDEs = fixture.debugElement.queryAll(By.directive(HeroComponent))
+        // expect(HeroCompnentDEs[3].nativeElement.querySelector('a').textContent).toContain(newHeroName)
+
+        // second
+        // let heroText = fixture.debugElement.query(By.css('ul')).nativeElement.textContent
+        // console.log('heroText: ', heroText)
+        // expect(heroText).toContain(newHeroName)
+
+        // third
+        let lastLi = fixture.debugElement.query(By.css('ul li:last-child')).nativeElement.textContent
+        console.log('lastLi: ', lastLi)
+        expect(lastLi).toContain(newHeroName)
+    })
         
 })
