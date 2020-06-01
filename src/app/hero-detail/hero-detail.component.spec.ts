@@ -1,10 +1,10 @@
 import { TestBed, ComponentFixture, fakeAsync, tick, flush } from "@angular/core/testing"
-import { Location } from '@angular/common';
+import { Location } from '@angular/common'
 import { HeroDetailComponent } from './hero-detail.component'
-import { HeroService } from "../hero.service";
-import { ActivatedRoute } from "@angular/router";
-import { FormsModule } from "@angular/forms";
-import { of } from "rxjs";
+import { HeroService } from "../hero.service"
+import { ActivatedRoute } from "@angular/router"
+import { FormsModule } from "@angular/forms"
+import { of } from "rxjs"
 
 describe('hero-detail component', () => {
     let fixture: ComponentFixture<HeroDetailComponent>
@@ -44,22 +44,33 @@ describe('hero-detail component', () => {
         expect(heroDetailComponent.hero).toEqual(hero_Id3)
     })
 
+    it('should call updateHero when save is called using setTimeout', (done) => {
+        mockHeroService.updateHero.and.returnValue(of({}))
+    
+        heroDetailComponent.save()
+
+        setTimeout(() => {
+            expect(mockHeroService.updateHero).toHaveBeenCalled()
+            done()
+        }, 250)
+    })
+
     it('should call updateHero when save is called using fakeAsync-tick', fakeAsync(() => {
-        mockHeroService.updateHero.and.returnValue(of({}));
+        mockHeroService.updateHero.and.returnValue(of({}))
     
         heroDetailComponent.save()
         tick(250)
     
-        expect(mockHeroService.updateHero).toHaveBeenCalled();
+        expect(mockHeroService.updateHero).toHaveBeenCalled()
       }))
 
     it('should call updateHero when save is called using fakeAsync-flush', fakeAsync(() => {
-        mockHeroService.updateHero.and.returnValue(of({}));
+        mockHeroService.updateHero.and.returnValue(of({}))
     
         heroDetailComponent.save()
         flush()
     
-        expect(mockHeroService.updateHero).toHaveBeenCalled();
+        expect(mockHeroService.updateHero).toHaveBeenCalled()
     }))
 
 
