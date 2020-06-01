@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture, fakeAsync, tick, flush } from "@angular/core/testing"
+import { TestBed, ComponentFixture, fakeAsync, tick, flush, async } from "@angular/core/testing"
 import { Location } from '@angular/common'
 import { HeroDetailComponent } from './hero-detail.component'
 import { HeroService } from "../hero.service"
@@ -44,6 +44,7 @@ describe('hero-detail component', () => {
         expect(heroDetailComponent.hero).toEqual(hero_Id3)
     })
 
+    // for the async version of save
     it('should call updateHero when save is called using setTimeout', (done) => {
         mockHeroService.updateHero.and.returnValue(of({}))
     
@@ -73,6 +74,13 @@ describe('hero-detail component', () => {
         expect(mockHeroService.updateHero).toHaveBeenCalled()
     }))
 
-
+    // for the promise version of save
+    it('should call updateHero when save is called using async-whenStable', async(() => {
+        mockHeroService.updateHero.and.returnValue(of({}))
+    
+        heroDetailComponent.save()
+        
+        fixture.whenStable().then(() => { expect(mockHeroService.updateHero).toHaveBeenCalled() })
+    }))
 
 })
