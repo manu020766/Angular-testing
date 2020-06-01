@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture, fakeAsync, tick } from "@angular/core/testing"
+import { TestBed, ComponentFixture, fakeAsync, tick, flush } from "@angular/core/testing"
 import { Location } from '@angular/common';
 import { HeroDetailComponent } from './hero-detail.component'
 import { HeroService } from "../hero.service";
@@ -44,13 +44,24 @@ describe('hero-detail component', () => {
         expect(heroDetailComponent.hero).toEqual(hero_Id3)
     })
 
-    it('should call updateHero when save is called', fakeAsync(() => {
+    it('should call updateHero when save is called using fakeAsync-tick', fakeAsync(() => {
         mockHeroService.updateHero.and.returnValue(of({}));
     
-        fixture.componentInstance.save();
+        heroDetailComponent.save()
         tick(250)
     
         expect(mockHeroService.updateHero).toHaveBeenCalled();
       }))
+
+    it('should call updateHero when save is called using fakeAsync-flush', fakeAsync(() => {
+        mockHeroService.updateHero.and.returnValue(of({}));
+    
+        heroDetailComponent.save()
+        flush()
+    
+        expect(mockHeroService.updateHero).toHaveBeenCalled();
+    }))
+
+
 
 })
