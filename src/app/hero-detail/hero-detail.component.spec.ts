@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture } from "@angular/core/testing"
+import { TestBed, ComponentFixture, fakeAsync, tick } from "@angular/core/testing"
 import { Location } from '@angular/common';
 import { HeroDetailComponent } from './hero-detail.component'
 import { HeroService } from "../hero.service";
@@ -43,5 +43,14 @@ describe('hero-detail component', () => {
         // console.log('mockActivateRoute: ', mockActivateRoute.snapshot.paramMap.get())
         expect(heroDetailComponent.hero).toEqual(hero_Id3)
     })
+
+    it('should call updateHero when save is called', fakeAsync(() => {
+        mockHeroService.updateHero.and.returnValue(of({}));
+    
+        fixture.componentInstance.save();
+        tick(250)
+    
+        expect(mockHeroService.updateHero).toHaveBeenCalled();
+      }))
 
 })
